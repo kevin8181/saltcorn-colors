@@ -7,10 +7,8 @@ const colorPicker = {
     htmlClass = "color" + (Math.floor(Math.random() * 10000) + 1);
     return `
       <div class="colorPickerContainer ${htmlClass}"></div>
-      <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-          createColorPicker("${name}", "${initialValue}", undefined, "${htmlClass}");
-        });
+      <script type="module">
+        createColorPicker("${name}", "${initialValue}", undefined, "${htmlClass}");
       </script>
     `;
   },
