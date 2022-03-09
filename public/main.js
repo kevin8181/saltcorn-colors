@@ -1,16 +1,9 @@
 //jshint esversion:8
 
-function getHexColor(colorStr) { //accepts any css color as a string, returns hex code
-  var a = document.createElement('div');
-  a.style.color = colorStr;
-  var colors = window.getComputedStyle( document.body.appendChild(a) ).color.match(/\d+/g).map(function(a){ return parseInt(a,10); });
-  document.body.removeChild(a);
-  return (colors.length >= 3) ? '#' + (((1 << 24) + (colors[0] << 16) + (colors[1] << 8) + colors[2]).toString(16).substr(1)) : false;
-}
-
 function createColorPicker(name, initialValue, attributes, htmlClass) { //creates a new color picker
   //find div
   const colorPickerContainer = document.querySelector("." + htmlClass);
+  const transparency = attributes.transparency;
 
   //create elements
   const colorSwatch = document.createElement("div");
@@ -24,26 +17,31 @@ function createColorPicker(name, initialValue, attributes, htmlClass) { //create
   const colorInput = document.createElement("input");
   colorInput.type = "color";
   colorInput.classList.add("colorInput", htmlClass);
-  colorInput.addEventListener("input", (e) => { updateColor(e.currentTarget.value, htmlClass); }); //when color input changes, update color
-  colorInput.name = name;
+  colorInput.addEventListener("input", (e) => { updateColor(e.currentTarget.value, htmlClass, true, transparency); }); //when color input changes, update color
   colorPickerContainer.appendChild(colorInput);
 
   const textInput = document.createElement("input");
   textInput.classList.add("form-control", "textInput", htmlClass);
   textInput.type = "text";
-  textInput.placeholder = "color";
-  textInput.addEventListener("input", (e) => { updateColor(e.currentTarget.value, htmlClass); }); //when text input changes, update color
+  textInput.name = name;
+  textInput.placeholder = attributes.placeholder;
+  textInput.addEventListener("input", (e) => { updateColor(e.currentTarget.value, htmlClass, false, transparency); }); //when text input changes, update color
+  textInput.addEventListener("blur", (e) => { updateColor(e.currentTarget.value, htmlClass, true, transparency); }); //when unfocus, change value
   colorPickerContainer.appendChild(textInput);
 
   initialValue = initialValue == "undefined" ? null : initialValue; //if initial value is "undefined", make it null
-  updateColor(initialValue, htmlClass);
-  //set initial values
+  updateColor(initialValue, htmlClass, true, transparency); //set initial values
 }
 
-function updateColor(color, htmlClass) {
-  if (color) {
-    document.querySelector(".colorSwatch." + htmlClass).style.backgroundColor = color;
-    document.querySelector(".colorInput." + htmlClass).value = getHexColor(color);
-    document.querySelector(".textInput." + htmlClass).value = color;
+function updateColor(color, htmlClass, updateText, transparency) { //sets the values of all elements
+  color = tinycolor(color);
+  if (color.isValid()) {
+    color = transparency ? color.toHex8String() : color.toHexString(); //if transparency allowed convert to hex8 otherwise use hex6
   }
+  else {
+    color = null;
+  }
+  document.querySelector(".colorSwatch." + htmlClass).style.backgroundColor = color;
+  document.querySelector(".colorInput." + htmlClass).value = color;
+  if (updateText) {document.querySelector(".textInput." + htmlClass).value = color;}
 }

@@ -1,7 +1,4 @@
 /* for colorPicker fieldview */
-.colorPickerContainer {
-  display: block;
-}
 .colorSwatch,
 .colorInput,
 .checkerboard {
@@ -12,13 +9,13 @@
   margin: 8px;
 }
 .checkerboard{
-  background-position: 0 0, 5px 5px;
-  background-size: 10px 10px;
-  background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%),linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%);
+  background-position: 0 0, 11px 11px;
+  background-size: 22px 22px;
+  background-image: linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc 100%),linear-gradient(45deg, #ccc 25%, white 25%, white 75%, #ccc 75%, #ccc 100%);
   z-index: 1;
 }
 .colorSwatch {
-  box-shadow: inset 0 0 1px 1px rgba(0,0,0,.1);
+  box-shadow: inset 0 0 3px 1px #0002;
   border: none;
   z-index: 2;
 }

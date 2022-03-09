@@ -3,12 +3,25 @@
 const colorPicker = {
   type: "Color",
   isEdit: true,
+  configFields: [
+    {
+      name: "transparency",
+      label: "Allow transparency",
+      type: "Bool",
+    },
+    {
+      name: "placeholder",
+      label: "Placeholder",
+      type: "String",
+    },
+  ],
   run: (name, initialValue, attributes, htmlClass) => {
     htmlClass = "color" + (Math.floor(Math.random() * 10000) + 1);
     return `
       <div class="colorPickerContainer ${htmlClass}"></div>
+      <script src="/plugins/public/saltcorn-colors/tinycolor.min.js"></script>
       <script type="module">
-        createColorPicker("${name}", "${initialValue}", undefined, "${htmlClass}");
+        createColorPicker("${name}", "${initialValue}", JSON.parse('${JSON.stringify(attributes)}'), "${htmlClass}");
       </script>
     `;
   },
@@ -27,15 +40,16 @@ const show_text_swatch = {
   isEdit: false,
   run: (value) => {
     return `
-      <div class="showSwatch" style="
+      <div style="
         background-color: ${value};
         height: 1rem;
         width: 1rem;
         display: inline-block;
         border-radius: 3px;
-        box-shadow: inset 0 0 1px 1px rgba(0,0,0,.1);
+        box-shadow: inset 0 0 3px 1px #0002;
         margin-bottom: 0.3rem;
         vertical-align: middle;
+        z-index: 2;
       "></div>
       ${value}
     `;
@@ -47,15 +61,16 @@ const show_swatch = {
   isEdit: false,
   run: (value) => {
     return `
-      <div class="showSwatch" style="
+      <div style="
         background-color: ${value};
         height: 1rem;
         width: 1rem;
         display: inline-block;
         border-radius: 3px;
-        box-shadow: inset 0 0 1px 1px rgba(0,0,0,.1);
+        box-shadow: inset 0 0 3px 1px #0002;
         margin-bottom: 0.3rem;
         vertical-align: middle;
+        z-index: 2;
       "></div>
     `;
   },
