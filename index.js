@@ -1,4 +1,7 @@
 /* jshint esversion:8*/
+const tinycolor = require('./public/tinycolor.min.js');
+
+// Fieldviews
 
 const colorPicker = {
   type: "Color",
@@ -76,6 +79,28 @@ const show_swatch = {
   },
 };
 
+// Functions
+
+const toHex = {
+  run: async (color) => {
+    color = tinycolor(color);
+    return color.isValid() ? tinycolor(color).toHexString() : null;
+  },
+  isAsync: true,
+  description: "Turns any color string into a 6 character hexadecimal code with '#'. If an invalid color is passed, returns null.",
+};
+
+const toHex8 = {
+  run: async (color) => {
+    color = tinycolor(color);
+    return color.isValid() ? tinycolor(color).toHex8String() : null;
+  },
+  isAsync: true,
+  description: "Turns any color string into an 8 character hexadecimal code with '#'. If an invalid color is passed, returns null.",
+};
+
+// Output
+
 const headers = [
   {
     script: "/plugins/public/saltcorn-colors/main.js",
@@ -94,5 +119,9 @@ module.exports = {
     show_text,
     show_text_swatch,
     show_swatch,
+  },
+  functions: {
+    toHex,
+    toHex8,
   },
 };

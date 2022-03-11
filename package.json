@@ -1,7 +1,7 @@
 {
   "name": "saltcorn-colors",
-  "version": "0.2.0",
-  "description": "Adds more color fieldviews to saltcorn.",
+  "version": "0.3.0",
+  "description": "Adds color utilities to saltcorn.",
   "main": "index.js",
   "author": "kevin8181",
   "license": "MIT",
